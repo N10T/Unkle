@@ -1,6 +1,17 @@
 import './App.css';
+import React from 'react'
 
 function App() {
+
+  React.useEffect(() => {
+
+    const logData = e => {e.target.dataset?.tips && console.log(e.target.dataset.tips)}
+    
+    window.addEventListener("mousemove", logData);
+  
+    return () => window.removeEventListener("mousemove", logData);
+  }, []);
+
   return (
     <div className="App">
       <h1>Technical test Unkle</h1>
