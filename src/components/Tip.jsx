@@ -1,5 +1,5 @@
 import React from "react";
-import { TipsContext } from "../context";
+import { TipsContext } from "../contexts/context";
 
 export default function Tip({ children }) {
     const { setTip, setTarget } = React.useContext(TipsContext);

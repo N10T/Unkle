@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TipsContext } from "../context";
+import { TipsContext } from "../contexts/context";
 
 export default function Tooltip({ children, isMouseFollow, position: initPosition = "bottom" }) {
 
