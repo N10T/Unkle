@@ -9,7 +9,7 @@ function App() {
         <form className="form" onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="name">
             Name
-            <input type="text" name="name" data-tips={<div>write your name</div> } />
+            <input type="text" name="name" data-tips="write your name" />
           </label>
           <button data-tips="send the form">Submit</button>
         </form>
