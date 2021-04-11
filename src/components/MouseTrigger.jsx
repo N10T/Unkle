@@ -39,38 +39,42 @@ let count = 0
       free: { top: mousePosition.y + 10, left: mousePosition.x + 10 },
     }[position];
     //Set and reset tooltip params
-    useEffect(() => {
-      const element = targetRef.current;
+    // useEffect(() => {
+    //   const element = targetRef.current;
+    //   const refsArray = Object.values(refs)
   
-      const resetTooltip = () => setTip("");
+    //   const resetTooltip = () => setTip("");
 
-      if(isMouseFollow){
-          element.addEventListener("mousemove", setTooltip);
-          element.addEventListener("mouseleave", resetTooltip);
-      }
-      const refsArray = Object.values(refs).map(el=>el.current)
-      refsArray[0] && refsArray.forEach((el) => {
-        el.addEventListener("focusin", setTooltip);
-        el.addEventListener("focusout", resetTooltip);
-        if(!isMouseFollow){
-        el.addEventListener("mouseenter", setTooltip);
-        el.addEventListener("mouseleave", resetTooltip);
-        }
-      });
+    //   if(isMouseFollow){
+    //       element.addEventListener("mousemove", setTooltip);
+    //       element.addEventListener("mouseleave", resetTooltip);
+    //   }
+    //   refsArray[0].current && refsArray.forEach((el) => {
+    //       el = el.current
+    //     el.addEventListener("focusin", setTooltip);
+    //     el.addEventListener("focusout", resetTooltip);
+    //     if(!isMouseFollow){
+    //     el.addEventListener("mouseenter", setTooltip);
+    //     el.addEventListener("mouseleave", resetTooltip);
+    //     }
+    //   });
   
-      return () => {
-        element.removeEventListener("mousemove", setTooltip);
-        element.removeEventListener("mousemove", resetTooltip);
-        refsArray[0] && refsArray.forEach((el) => {
-          el.removeEventListener("focusin", setTooltip);
-          el.removeEventListener("focusout", resetTooltip);
-          if(!isMouseFollow){
-            el.addEventListener("mouseenter", setTooltip);
-            el.addEventListener("mouseleave", resetTooltip);
-            }
-        });
-      };
-    }, [refs, targetRef, setTooltip,isMouseFollow]);
+    //   return () => {
+    //     if(isMouseFollow){
+    //         element.removeEventListener("mousemove", setTooltip);
+    //         element.removeEventListener("mouseleave", resetTooltip);
+    //     }
+    //     refsArray[0].current && refsArray.forEach((el) => {
+    //         el = el.current
+    //       el.removeEventListener("focusin", setTooltip);
+    //       el.removeEventListener("focusout", resetTooltip);
+    //       if(!isMouseFollow){
+    //       el.removeEventListener("mouseenter", setTooltip);
+    //       el.removeEventListener("mouseleave", resetTooltip);
+    //       }
+    //     });
+    //   };
+    // }, [refs, targetRef, setTooltip,isMouseFollow]);
   
     //set position
     useEffect(() => {
