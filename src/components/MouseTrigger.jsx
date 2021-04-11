@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-
+let count = 0
 /**
  * @prop  {Component} children element wrapped inside this component
  * @prop  {Boolean} isMouseFollow to have the tip following the mouse
  * @prop  {String} focusPosition to set the position of the tip on focus (default bottom)
  */
  export default function MouseTrigger({ children, isMouseFollow, focusPosition="bottom" }) {
+    count ++
+  console.log("render",count)
+
+    
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [position, setPosition] = useState(isMouseFollow ? "free" : "bottom");
     const [target, setTarget] = useState({ x: 0, y: 0, height: 0, width: 0 });
@@ -34,17 +38,26 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
       left: { top: y, left: x - width },
       free: { top: mousePosition.y + 10, left: mousePosition.x + 10 },
     }[position];
-  
     //Set and reset tooltip params
     useEffect(() => {
       const element = targetRef.current;
   
       const resetTooltip = () => setTip("");
-      element.addEventListener("mousemove", setTooltip);
-      element.addEventListener("mouseleave", resetTooltip);
+
+      if(isMouseFollow){
+          element.addEventListener("mousemove", setTooltip);
+          element.addEventListener("mouseleave", resetTooltip);
+      }
+
+
+
       element.querySelectorAll("[data-tips]").forEach((el) => {
         el.addEventListener("focusin", setTooltip);
         el.addEventListener("focusout", resetTooltip);
+        if(!isMouseFollow){
+        el.addEventListener("mouseenter", setTooltip);
+        el.addEventListener("mouseleave", resetTooltip);
+        }
       });
   
       return () => {
@@ -53,6 +66,10 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
         element.querySelectorAll("[data-tips]").forEach((el) => {
           el.removeEventListener("focusin", setTooltip);
           el.removeEventListener("focusout", resetTooltip);
+          if(!isMouseFollow){
+            el.addEventListener("mouseenter", setTooltip);
+            el.addEventListener("mouseleave", resetTooltip);
+            }
         });
       };
     }, [targetRef, setTooltip]);
@@ -65,11 +82,12 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
   
     }, [isMouseFollow,mousePosition,target])
 
+    
     return (
       <>
         {tip && (
           <div className="tips" style={{ ...style, minWidth: width }}>
-            {tip }
+            { tip }
           </div>
         )}
         <div ref={targetRef}>{children}</div>
