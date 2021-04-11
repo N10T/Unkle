@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import {TipsContext} from "../context";
+
 let count = 0
 /**
  * @prop  {Component} children element wrapped inside this component
@@ -86,13 +88,14 @@ let count = 0
 
     
     return (
-      <>
+      <TipsContext.Provider value={{tip,setTip}} >  
         {tip && (
           <div className="tips" style={{ ...style, minWidth: width }}>
             { tip }
           </div>
         )}
-        <div ref={targetRef}>{children}</div>
-      </>
+            <div ref={targetRef}>{children}</div>
+        </TipsContext.Provider>
+
     );
   }

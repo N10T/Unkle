@@ -1,29 +1,25 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import "./App.css";
+import {TipsContext} from "./context";
 
 import MouseTrigger from "./components/MouseTrigger";
 
 function App() {
-  const nameRef = useRef(null),
-    buttonRef = useRef(null);
-
-  const refs = { nameRef, buttonRef };
-
-  // const myRef = (element) => {
-  //   return element && refs[element.name || element.dataset.name];
-  // };
 
   return (
     <div className="App">
       <h1>Technical test Unkle</h1>
-      <MouseTrigger isMouseFollow focusPosition="bottom" refs={refs}>
+      <MouseTrigger isMouseFollow focusPosition="bottom">
         <form className="form" onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="name">
             Name
-            <input type="text" name="name" ref={nameRef} data-tips="write your name" />
+            <Tips>
+            <input type="text" name="name" />
+            write your name
+            </Tips>
           </label>
           <Tips>
-            <button data-name="button">Submit</button>
+            <button>Submit</button>
             <div className="tips">
               <h1>super tips</h1>
               <p>try to use HTML as tips</p>
@@ -36,24 +32,15 @@ function App() {
 }
 
 function Tips({ children }) {
-  return (
-    <>
-      {React.Children.map(children, (child, index) => {
-        // add event listner to the first child
-        if (index === 0) {
-          const extraProps = {
-            onFocus: () => console.log("focus in"),
-            onBlur: () => console.log("focus out"),
-            onMouseEnter: () => console.log("onMouseEnter"),
-            onMouseLeave: () => console.log("onMouseLeave"),
-          };
-          return React.cloneElement(child, extraProps);
-          // return <Child></Child>
-        } else {
-          return child;
-        }
-      })}
-    </>
-  );
+  const { setTip } = React.useContext(TipsContext);
+  const childrenArray = React.Children.toArray(children)
+  const extraProps = currentTip => ({
+    onFocus: () => setTip(currentTip),
+    onBlur: () => setTip(""),
+    onMouseEnter: () => setTip(currentTip),
+    onMouseLeave: () => setTip(""),
+  });
+
+  return React.cloneElement(childrenArray[0],extraProps(childrenArray[1]))
 }
 export default App;
