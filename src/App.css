@@ -27,6 +27,10 @@
             animation: hide-to-visible 0.5s;
 }
 
+.tipsWrapper{
+  position:absolute;
+}
+
 @-webkit-keyframes hide-to-visible {
   0% {  opacity: 0; }
   100% {  opacity: 1; }
