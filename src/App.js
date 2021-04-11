@@ -1,21 +1,29 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
-let count = 0
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
-const setTooltip = (e, setTip, setTarget,setMousePosition) => {
-  const { x, y, height, width } = e.target.getBoundingClientRect();
-  setTip(e.target.dataset.tips);
-  setTarget({ x, y, height, width });
-  setMousePosition({x:e.clientX,y:e.clientY})
-};
-
-function MouseTrigger({ children, position="free" }) {
+function MouseTrigger({ children, hoverPosition, focusPosition }) {
   const [tip, setTip] = useState("");
   const [target, setTarget] = useState({ x: 0, y: 0, height: 0, width: 0 });
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0});
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState(hoverPosition);
 
+  const setTooltip = useCallback(
+    (e) => {
+      const { x, y, height, width } = e.target.getBoundingClientRect();
+      setTip(e.target.dataset.tips);
+      if (e.type === "mousemove") {
+        setMousePosition({ x: e.clientX, y: e.clientY });
+        setPosition(hoverPosition);
+      } else {
+        setPosition(focusPosition);
+      }
+      setTarget({ x, y, height, width });
+    },
+    [hoverPosition,focusPosition]
+  );
+
+  const targetRef = useRef(null);
   const { x, y, height, width } = target;
-
   const style = {
     top: { top: y - height, left: x },
     right: { top: y, left: x + width },
@@ -23,21 +31,28 @@ function MouseTrigger({ children, position="free" }) {
     left: { top: y, left: x - width },
     free: { top: mousePosition.y + 3, left: mousePosition.x + 3 },
   }[position];
-  count ++
-console.log("render",count)
-  const ref = React.useRef(null);
-  //initialisation of mouse move triggering & mouse leaving
+
+  //Set and reset tooltip params
   useEffect(() => {
-    const element =  ref.current;
-    const mouseMoveHandler = (e) => setTooltip(e, setTip, setTarget,setMousePosition)
-    const mouseLeaveHandler = () => setTip("")
-    element.addEventListener("mousemove", mouseMoveHandler);
-    element.addEventListener("mouseleave", mouseLeaveHandler);
+    const element = targetRef.current;
+
+    const resetTooltip = () => setTip("");
+    element.addEventListener("mousemove", setTooltip);
+    element.addEventListener("mouseleave", resetTooltip);
+    element.querySelectorAll("[data-tips]").forEach((el) => {
+      el.addEventListener("focusin", setTooltip);
+      el.addEventListener("focusout", resetTooltip);
+    });
+
     return () => {
-      element.removeEventListener("mousemove", mouseMoveHandler)
-      element.removeEventListener("mousemove", mouseLeaveHandler)
+      element.removeEventListener("mousemove", setTooltip);
+      element.removeEventListener("mousemove", resetTooltip);
+      element.querySelectorAll("[data-tips]").forEach((el) => {
+        el.removeEventListener("focusin", setTooltip);
+        el.removeEventListener("focusout", resetTooltip);
+      });
     };
-  }, [ref]);
+  }, [targetRef, setTooltip]);
 
   return (
     <>
@@ -46,17 +61,16 @@ console.log("render",count)
           {tip}
         </div>
       )}
-      <div ref={ref}>{children}</div>
+      <div ref={targetRef}>{children}</div>
     </>
   );
 }
 
 function App() {
-  
   return (
     <div className="App">
       <h1>Technical test Unkle</h1>
-      <MouseTrigger position="free">
+      <MouseTrigger hoverPosition="free" focusPosition="bottom">
         <form className="form" onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="name">
             Name
