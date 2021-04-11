@@ -5,7 +5,7 @@ let count = 0
  * @prop  {Boolean} isMouseFollow to have the tip following the mouse
  * @prop  {String} focusPosition to set the position of the tip on focus (default bottom)
  */
- export default function MouseTrigger({ children, isMouseFollow, focusPosition="bottom" }) {
+ export default function MouseTrigger({ children, isMouseFollow, refs, focusPosition="bottom" }) {
     count ++
   console.log("render",count)
 
@@ -48,10 +48,8 @@ let count = 0
           element.addEventListener("mousemove", setTooltip);
           element.addEventListener("mouseleave", resetTooltip);
       }
-
-
-
-      element.querySelectorAll("[data-tips]").forEach((el) => {
+      const refsArray = Object.values(refs).map(el=>el.current)
+      refsArray[0] && refsArray.forEach((el) => {
         el.addEventListener("focusin", setTooltip);
         el.addEventListener("focusout", resetTooltip);
         if(!isMouseFollow){
@@ -63,7 +61,7 @@ let count = 0
       return () => {
         element.removeEventListener("mousemove", setTooltip);
         element.removeEventListener("mousemove", resetTooltip);
-        element.querySelectorAll("[data-tips]").forEach((el) => {
+        refsArray[0] && refsArray.forEach((el) => {
           el.removeEventListener("focusin", setTooltip);
           el.removeEventListener("focusout", resetTooltip);
           if(!isMouseFollow){
@@ -72,7 +70,7 @@ let count = 0
             }
         });
       };
-    }, [targetRef, setTooltip]);
+    }, [refs, targetRef, setTooltip,isMouseFollow]);
   
     //set position
     useEffect(() => {
