@@ -18,6 +18,20 @@
   z-index: 1;
   background-color: white;
   border-radius: 10px;
-  border: 1px solid black;
+  border: 1px solid #000000;
   text-align: center;
+  max-width: 25vw;
+  max-height: 25vh;
+  text-overflow: ellipsis;
+    -webkit-animation: hide-to-visible 0.5s;
+            animation: hide-to-visible 0.5s;
+}
+
+@-webkit-keyframes hide-to-visible {
+  0% {  opacity: 0; }
+  100% {  opacity: 1; }
+}
+@keyframes hide-to-visible {
+  0% {  opacity: 0; }
+  100% {  opacity: 1; }
 }
