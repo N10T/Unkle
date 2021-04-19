@@ -4,7 +4,7 @@ import { TipsContext } from "../contexts/context";
 export default function Tooltip({ children, isMouseFollow, position: initPosition = "bottom" }) {
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [position, setPosition] = useState(isMouseFollow ? "free" : initPosition);
+  const position = isMouseFollow ? "free" : initPosition;
   const [target, setTarget] = useState({ x: 0, y: 0, height: 0, width: 0 });
   const [tip, setTip] = useState("");
 
@@ -18,11 +18,11 @@ export default function Tooltip({ children, isMouseFollow, position: initPositio
     free: { top: mousePosition.y + 10, left: mousePosition.x + 10 },
   };
 
-  const style = { ...styles[position], minWidth: width };
+  const style = { ...styles[position], minWidth: width, maxWidth:"30vw", position: "absolute" };
 
   const tipToRender =
     typeof tip === "string" ? (
-      <div className="tips" style={style}>
+      <div className="input tips" style={style}>
         {tip}
       </div>
     ) : (
@@ -36,11 +36,6 @@ export default function Tooltip({ children, isMouseFollow, position: initPositio
     }
   }, [isMouseFollow, mousePosition]);
 
-  //To prevent a unset position
-  useEffect(() => {
-    if (initPosition && !Object.keys(styles).includes(position))
-      throw new Error(initPosition + " is not a valid position prop for the component");
-  }, [initPosition]);
 
   return (
     <TipsContext.Provider value={{ tip, setTip, setTarget }}>

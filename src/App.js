@@ -12,16 +12,23 @@ function App() {
       <h1>Technical test Unkle</h1>
       <Tooltip isMouseFollow>
         <form className="form" onSubmit={preventDefault}>
-          <label htmlFor="name">
-            Name
+          
             <Tip>
-              <input type="text" name="name" />
+              <input className="input" type="text" name="name" placeholder="Name" />
               write your name
             </Tip>
-          </label>
+            <Tip>
+              <input className="input" type="email" name="email" placeholder="Email" />
+              write your mail
+            </Tip>
+            <Tip>
+              <input className="input" type="password" name="password" placeholder="Password" />
+              Password required >7 characters
+            </Tip>
+
           <Tip>
-            <button>Submit</button>
-            <div className="tips">
+            <button className="button">Submit</button>
+            <div className="input tips">
               <h1>super tips</h1>
               <p>try to use HTML as tips</p>
             </div>

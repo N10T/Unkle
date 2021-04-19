@@ -13,22 +13,50 @@
   gap:10px;
 }
 
-.tips{
-  position: absolute;
-  z-index: 1;
-  background-color: white;
-  border-radius: 10px;
-  border: 1px solid #000000;
-  text-align: center;
-  max-width: 25vw;
-  max-height: 25vh;
-  text-overflow: ellipsis;
-    -webkit-animation: hide-to-visible 0.5s;
-            animation: hide-to-visible 0.5s;
+.input.tips{
+  border-left-color:#C4D6E6
 }
 
-.tipsWrapper{
-  position:absolute;
+.button {
+  display: inline-block;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 4rem;
+  vertical-align: middle;
+  margin: 0px 0.65em 1em;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.9em 1.6em;
+  line-height: 1.5;
+  appearance: none;
+  border-color: rgb(8, 34, 76);
+  background-color: rgb(8, 34, 76);
+  color: rgb(255, 255, 255);
+}
+
+.input{
+    display: block;
+    box-sizing: border-box;
+    padding: 17px 21px;
+    margin: 0px;
+    border-width: 0px 0px 0px 3px;
+    border-top-style: initial;
+    border-right-style: initial;
+    border-bottom-style: initial;
+    border-top-color: initial;
+    border-right-color: initial;
+    border-bottom-color: initial;
+    border-image: initial;
+    border-radius: 0px 4px 4px 0px;
+    font-size: inherit;
+    appearance: none;
+    min-height: 58px;
+    line-height: 1.5;
+    cursor: auto;
+    border-left-style: solid;
+    border-left-color: rgb(43, 157, 254);
+    background-color: rgba(235, 235, 235, 0.5);
+    color: inherit;
 }
 
 @-webkit-keyframes hide-to-visible {
