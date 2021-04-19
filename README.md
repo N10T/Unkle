@@ -1,15 +1,10 @@
-### `yarn start`
+# `NPM START`
 
-Runs the app in the development mode.\
+Runs the app in the development mode. `NPM START`
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
-
-### Import components
--
-import Tooltip from 'components/Tooltip';
-import Tip from 'components/Tooltip';
 
 # Tooltip API
 The API documentation of the Tooltip React component. Learn more about the props.
